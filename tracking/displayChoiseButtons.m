@@ -1,0 +1,9 @@
+xOff = 950;
+yOff = -600;
+uicontrol('BackgroundColor','g','Position',[800+xOff 700+yOff 36 36],'String','1',...
+              'FontSize',14,'Callback', @pressOneEnter);
+uicontrol('Position',[836+xOff 700+yOff 54 54],'String','2',...
+              'FontSize',14,'Callback', @pressTwoEnter);%'BackgroundColor','y',
+uicontrol('Position',[836+xOff 652+yOff 48 48],'String','0',...
+              'FontSize',14,'Callback', @pressZeroEnter);%'BackgroundColor','r',
+          
