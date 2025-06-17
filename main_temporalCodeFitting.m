@@ -124,11 +124,6 @@ for stim=1:16
 end
 
 
-    for d=1:15
-       M=temp{d}*1000;
-    writematrix(M','/home/hanlin/Downloads/codeFolderICML_mnist/visual_plots/Fig4a-PSTH.xls'...
-        ,'Sheet',sprintf('day_%i',d),'Range','A1')
-    end
 
 h.Position(3)         = h.Position(3)/2;
 h.Position(4)         = h.Position(4)/2;
@@ -173,12 +168,6 @@ l=legend('','CP1','CP2','CP3','EdgeColor','none','Location','north');
 l.Position=[0.4332    0.7130    0.1951    0.2183];
 xlim([0 520])
 
-for i =1:3
-    thisCP=LDA_15Axis_Store{u}(1:250,i);
-     M=thisCP;
-    writematrix(M,'/home/hanlin/Downloads/codeFolderICML_mnist/visual_plots/Fig4b.xls'...
-        ,'Sheet',sprintf('CP_%i',i),'Range','A1')
-end
 
 set(findall(h,'-property','FontSize'),'FontSize',14)
 box off
@@ -199,8 +188,7 @@ for i = [16:-1:1]
 
     ascomb=sqrt(temp+3/8)*2;
     ascomb=mean(ascomb,2); % average across trials
-  writematrix(ascomb,'/home/hanlin/Downloads/codeFolderICML_mnist/visual_plots/Fig4c.xls'...
-        ,'Sheet',sprintf('FR_stim_%0.1f',(i-1)*22.5),'Range','A1');
+
     pd=fitdist(ascomb,'Normal');
     xpdf=linspace(pd.mu-pd.sigma,pd.mu+pd.sigma,30);
     hold on;area(xpdf,pdf(pd,xpdf)/max(pdf(pd,xpdf)),'FaceColor',clist(i,:),'FaceAlpha',1/8,'EdgeColor',clist(i,:),'EdgeAlpha',0.8,'LineWidth',2)
@@ -224,8 +212,7 @@ for i = [16:-1:1]
     temp=squeeze(cat(1,temp{:}));
     temp=squeeze(mean(temp,2));
     
-      writematrix(temp,'/home/hanlin/Downloads/codeFolderICML_mnist/visual_plots/Fig4c.xls'...
-        ,'Sheet',sprintf('CP_stim_%0.1f',(i-1)*22.5),'Range','A1');
+
 
     [x,y,z]=ellipsoid_Hanlin(mean(temp),cov(temp),1,25);
     surf(x,y,z, 'FaceColor', 'none','EdgeColor',clist(i,:), 'EdgeAlpha', 0.7);
@@ -282,8 +269,6 @@ figure
 scatter(rateCodeDecode, temporalCodeDecode,'k.');axis equal;hold on;
 [mean(rateCodeDecode) sem(rateCodeDecode)]
 [mean(temporalCodeDecode) sem(temporalCodeDecode)]
-writematrix([rateCodeDecode, temporalCodeDecode],'/home/hanlin/Downloads/codeFolderICML_mnist/visual_plots/Fig4d.xls'...
-        ,'Range','A1')
 axisMax=xlim;temp=ylim;axisMax=max(axisMax(2),temp(2));
 chance = 1/100;
 scatter(chance,chance,40,'bo','filled')
@@ -327,8 +312,7 @@ xlabel('rates ')
 ylabel('components')
 text(range(xlim)*0.5,range(xlim)*0.1,sprintf('p = %.2g',p),'VerticalAlignment','bottom','FontSize',15)
 title(stimNames{nVS},'FontWeight','normal')
-writematrix([var1(~isnan(var1) & ~isnan(var2)) var2(~isnan(var1) & ~isnan(var2))],'/home/hanlin/Downloads/codeFolderICML_mnist/visual_plots/Fig4e-g.xls'...
-        ,'Sheet',sprintf('%s',gca().Title().String),'Range','A1')
+
 saveas(gcf,['results/Fig4e-' stimNames{nVS}  '.png'])
 close(gcf)
 
@@ -370,10 +354,7 @@ var2=var2(valid,:);
 
 lme=hanlinLME([{var1} {var2}],0);
 
-writematrix([var1],'/home/hanlin/Downloads/codeFolderICML_mnist/visual_plots/Fig4e-g.xls'...
-        ,'Sheet',sprintf('%s-%s',gca().Title().String,'CP'),'Range','A1')
-writematrix([var2],'/home/hanlin/Downloads/codeFolderICML_mnist/visual_plots/Fig4e-g.xls'...
-        ,'Sheet',sprintf('%s-%s',gca().Title().String,'FR'),'Range','A1')
+
 
 str1=sprintf('p(same slope)\n=%.2g',double(lme{4}.Coefficients(4,6)));
 
@@ -428,10 +409,7 @@ var1=var1(valid,:);
 var2=var2(valid,:);
 
 lme=hanlinLME([{var1} {var2}],0);
-writematrix([var1],'/home/hanlin/Downloads/codeFolderICML_mnist/visual_plots/Fig4e-g.xls'...
-        ,'Sheet',sprintf('%s-%s',gca().Title().String,'CP'),'Range','A1')
-writematrix([var2],'/home/hanlin/Downloads/codeFolderICML_mnist/visual_plots/Fig4e-g.xls'...
-        ,'Sheet',sprintf('%s-%s',gca().Title().String,'FR'),'Range','A1')
+
 str1=sprintf('p(same slope)\n=%.2g',double(lme{4}.Coefficients(4,6)));
 if double(lme{4}.Coefficients(4,6))<realmin
 str1=sprintf('p(same slope)\n<%.2g',realmin);
